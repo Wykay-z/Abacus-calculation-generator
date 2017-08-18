@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>姚姚姚</title>
+</head>
+<style>
+    html , body{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        background: url("img/bg.png") no-repeat;
+        background-size: 100% 100%;
+    }
+    #container {
+        width: 900px;
+        margin: 60px auto;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 0 20px rgba(0,0,0,.1);
+    }
+    #header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        width: 900px;
+        height: 400px;
+        background: url("img/header2.jpg") no-repeat;
+        text-align: center;
+        color: #fff;
+    }
+    #header h1 {
+        padding-top: 50px;
+        font-size: 50px;
+    }
+    #userInput input {
+        width: 150px;
+        height: 30px;
+        margin: 10px 20px;
+        padding: 5px;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        text-align: center;
+        background: #fff;
+        color: #FC7A9C;
+        font-weight: bold;
+    }
+    #userInput input:first-child {
+        margin-left: 0;
+    }
+    #userInput input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        font-weight: normal;
+        font-size: 14px;
+        color: rgba(0,0,0,.4);
+    }
+    #userInput input::-moz-placeholder { /* Firefox 19+ */
+        font-weight: normal;
+        font-size: 14px;
+        color: rgba(0,0,0,.4);
+    }
+    #userInput input:-ms-input-placeholder { /* IE 10+ */
+        font-weight: normal;
+        font-size: 14px;
+        color: rgba(0,0,0,.4);
+    }
+    #userInput input:-moz-placeholder { /* Firefox 18- */
+        font-weight: normal;
+        font-size: 14px;
+        color: rgba(0,0,0,.4);
+    }
+
+
+    #note {
+        font-size: 14px;
+        color: rgba(0,0,0,.4);
+    }
+    #button {
+        width: 240px;
+        height: 30px;
+        margin: 20px auto auto;
+        padding: 10px;
+        border-radius: 50px;
+        font-size: 20px;
+        text-align: center;
+        background: rgba(255,255,255,.2);
+        border: 4px solid #fff;
+        color: #fff;
+        cursor: pointer;
+    }
+    #button:hover {
+        background: rgba(255,255,255,1);
+        color: #FC7A9C;
+    }
+    #main {
+        width: 900px;
+        min-height: 400px;
+    }
+    .mainPart {
+        width: 700px;
+        margin: 100px auto;
+    }
+    .partImg {
+        width: 200px;
+        float: left;
+    }
+    .partImg img {
+        width: 150px;
+    }
+    #stu, #tea {
+        width: 500px;
+        float: left;
+        background: url("img/sp.png") no-repeat center center;
+        background-size: 40% auto;
+    }
+    #stu p {
+        width: 60px;
+        text-align: right;
+        float: left;
+        line-height: 29px;
+    }
+
+    #tea {
+        margin-bottom: 50px;
+    }
+
+    #selector span {
+        margin: 20px 10px 0px 10px;
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        border: 2px solid #fff;
+        border-radius: 30px;
+        line-height: 30px;
+        cursor: pointer;
+    }
+    #selector span.active {
+        background: #fff;
+        color: #FC7A9C;
+    }
+</style>
+<body>
+<div id="container">
+    <div id="header">
+        <h1>姚姚姚的出题器</h1>
+        <div id="userInput">
+            <input id="levelVal" placeholder="级别">
+            <input id="numsVal" placeholder="几口">
+            <input id="quesVal" placeholder="题量">
+        </div>
+        <div id="note">
+            <strong>级别: </strong>1-个位数; 2-两位数; 3-三位数;    <strong>几口: </strong>运算个数;    <strong>题量: </strong>题目数量;
+        </div>
+        <div id="selector">
+            <span id="addBtn">只加法</span>
+            <span class="active" id="minusBtn">加减法</span>
+        </div>
+
+        <div id="button">生 成 题 目</div>
+    </div>
+
+    <div id="main">
+        <div class="mainPart">
+            <div class="partImg"><img src="img/s.png"> </div>
+            <div id="stu">
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="mainPart">
+            <div class="partImg"><img src="img/t.png"> </div>
+            <div id="tea">
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+//    window.onload = initialFun;
+
+var stuMain = document.getElementById("stu");
+var teaMain = document.getElementById("tea");
+var selector = false;
+var addBtn = document.getElementById("addBtn");
+var minusBtn = document.getElementById("minusBtn");
+addBtn.addEventListener("click", function(){
+    minusBtn.className = "";
+    addBtn.className = "active";
+    selector = true;
+})
+minusBtn.addEventListener("click", function(){
+    minusBtn.className = "active";
+    addBtn.className = "";
+    selector = false;
+})
+
+
+
+
+
+
+var button = document.getElementById("button");
+button.onclick = function(){
+    stuMain.innerHTML = "";
+    teaMain.innerHTML = "";
+    var levelVal = document.getElementById("levelVal").value;
+    var numsVal = document.getElementById("numsVal").value;
+    var quesVal = document.getElementById("quesVal").value;
+    for(var i=0; i<quesVal; i++){
+        generation(levelVal, numsVal);
+    }
+}
+
+
+
+function generation(level, nums) {
+    var arr = [];
+    var sum = 0;
+    var count = nums;
+    var maxNum;
+    if(level == 1){
+        maxNum = 9;
+    } else if (level == 2) {
+        maxNum = 90;
+    } else if (level == 3){
+        maxNum = 900;
+    } else {
+        maxNum = 900;
+    }
+    for (var i = 0; i < count * 2 - 1; i++) {
+        if (i % 2 == 0) {
+            //生成数字
+            var num;
+            if (arr.length >= 1 && arr[arr.length - 1] == "-") {
+                num = Math.ceil(Math.random() * (sum - 1));
+                if(sum>=maxNum){
+                    num = Math.ceil(Math.random() * maxNum);
+                }
+                if(num==0){
+                    arr[arr.length-1] = "+";
+                    num = 5;
+                }
+            } else {
+                num = Math.ceil(Math.random() * maxNum);
+            }
+//            console.log(num);
+            arr.push(num);
+
+            // 运算当前结果
+            if (i == 0) {
+                sum += num;
+            } else {
+                sum += Number(arr[arr.length - 2] + arr[arr.length - 1]);
+            }
+        } else {
+            //生成运算符
+            var operator;
+            if(selector) {
+                operator = "+";
+            }else {
+                operator = Math.floor(Math.random() * 2.5) == 0 ? "-" : "+";
+            }
+//            console.log(operator);
+            arr.push(operator);
+        }
+    }
+    console.log(sum);
+    console.log(arr);
+    var result = arr.join(" ");
+    var result2 = result + " = " + sum;
+    console.log(result);
+    console.log(result2);
+
+
+    var ele = document.createElement("p");
+    var finalResult = "";
+    for(var i=0; i<arr.length;i++){
+        if(arr[i]=="-"){
+            finalResult += arr[i];
+        } else if(arr[i]=="+"){
+            continue;
+        } else {
+            finalResult += arr[i] + "<br/>"
+        }
+    }
+    ele.innerHTML = finalResult;
+    stuMain.appendChild(ele);
+    var ele2 = document.createElement("p");
+    ele2.innerHTML = result2;
+    teaMain.appendChild(ele2);
+}
+
+</script>
+</body>
+</html>
