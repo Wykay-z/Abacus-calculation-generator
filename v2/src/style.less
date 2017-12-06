@@ -1,10 +1,150 @@
-a {
-	text-decoration: none;
-	box-sizing: border-box;
-	transition: all .2s ease;
-	span {
-		font-size: 14px;
-		color: #fdf;
+@green: #4E898F;
+@blue: #1659ce;
+@red: #e61c0e;
 
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body, html {
+	font-family: Helvetica, Arial;
+	font-size: 12px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+
+section {
+	display: flex;
+	height: 100%;
+	.leftMenu {
+		flex: 1 200px;
+		background: #f3f4f5;
+		background-image: url(images/bg.png);
+		background-repeat: no-repeat;
+		background-size: 40% auto;
+		background-position: left bottom;
+		height: 100%;
+		form {
+			margin-top: 80px;
+			width: 100%;
+			padding: 0 30px;
+			.form-group {
+				width: 100%;
+				margin-bottom: 20px;
+				label{
+					width: 100%;
+					display: block;
+					margin-bottom: 10px;
+					color: #999;
+					span {
+						color: @blue;
+						font-weight: bold;
+					}
+				}
+				input{
+					width: 100%;
+					display: block;
+					border: none;
+					outline: none;
+					padding: 10px 20px;
+					border-radius: 4px;
+					background: #fff;
+					color: #333;
+				}
+
+				.select-group {
+					position: relative;
+					width: 100%;
+					.select{
+						width: 100%;
+						display: block;
+						border: none;
+						outline: none;
+						padding: 10px 20px;
+						border-radius: 4px;
+						background: #fff;
+						color: #333;
+						cursor: pointer;
+					}
+					.select-option {
+						display: none;
+						position: absolute;
+						width: 100%;
+						list-style: none;
+						border-radius: 4px;
+						background: #fff;
+						overflow: hidden;
+						box-shadow: 0 0 10px rgba(0,0,0,.1);
+						border: 1px solid @blue;
+						z-index: 10;
+						li {
+							height: 28px;
+							line-height: 28px;
+							padding: 0 20px;
+							border-bottom: 1px solid #fafafa;
+							cursor: pointer;
+							&:hover {
+								background: @blue;
+								color: #fff;
+							}
+						}
+					}
+				}
+				
+			}
+			.form-checkbox {
+				input {
+					width: auto;
+					display: inline-block;
+					margin-right: 5px;
+				}
+				label {
+					width: auto;
+					display: inline-block;
+					color: @blue;
+					font-weight: bold;
+				}
+			}
+			#btn {
+				width: 100%;
+				height: 32px;
+				border: none;
+				outline: none;
+				border-radius: 4px;
+				background: @blue;
+				color: #fff;
+				letter-spacing: .2em;
+				cursor: pointer;
+				&:hover {
+					opacity: .8;
+				}
+			}
+
+		}
+	}
+	.right {
+		flex: 2 400px;
+		height: 100%;
+		#num-stage {
+			font-family: "Comic Sans MS", cursive, sans-serif;
+			width: 100%;
+			padding-right: 20%;
+			text-align: right;
+			font-size: 120px;
+			color: @blue;
+			margin: 150px auto;
+		}
+		#result {
+			margin-top: 60px;
+			font-size: 14px;
+			color: @blue;
+			text-align: right;
+			padding-right: 20%;
+			padding-left: 10%;
+		}
 	}
 }
+

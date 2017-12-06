@@ -61,10 +61,14 @@ gulp.task('auto', function() {
 })
 
 gulp.task('default', ['script', 'images', 'lessMin', 'html', 'auto'])
+gulp.task('final', ['script', 'images', 'lessMin', 'html'])
 
 // 在开发时，只需要编译less时
 gulp.task('less', function() {
 	gulp.src('src/*.less')
 		.pipe(less())
 		.pipe(gulp.dest('src'))
+})
+gulp.task('watchLess', function() {
+	gulp.watch('src/*.less', ['less'])
 })
