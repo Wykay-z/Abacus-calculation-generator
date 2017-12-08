@@ -3,6 +3,9 @@ var kouNumEl = $("#kouNum");
 var jiajianEl = $("#jiajian");
 var btn = $("#btn");
 var numStage = $("#num-stage");
+var sumStage = $("#sum-stage");
+var scrollNumStage = $("#num-stage .scroll-mode");
+var singleNumStage = $("#num-stage .single-mode");
 var result = $("#result");
 
 var selectOptions = $(".select-option");
@@ -38,10 +41,18 @@ var modeSelect = new Selection($("#mode"));
 
 
 var interval;
+var timeout;
 btn.click(function() {
+    // reset
     clearInterval(interval);
+    clearTimeout(timeout);
 	result.html("");
-    numStage.html("");
+    scrollNumStage.hide();
+    singleNumStage.hide();
+    sumStage.hide();
+    scrollNumStage.stop();
+    scrollNumStage.css("margin-top", "100px");
+
 	var speed = speedSelect.getData();
 	var level = levelSelect.getData();
 	var kouNum = parseInt(kouNumEl.val()) || 10;
@@ -111,6 +122,7 @@ function generateNums(speed, level, kouNum, hasMinus) {
     showNums(speed, kouNum, arr, sum, result2);
 }
 
+
 function showNums(speed, kouNum, arr, sum, result2) {
     var newArr = [];
     for( var j = 0; j < kouNum; j++) {
@@ -120,21 +132,56 @@ function showNums(speed, kouNum, arr, sum, result2) {
             newArr.push((arr[j*2-1] === "+") ? arr[j*2] : "-" + arr[j*2]);
         }
     }
-    var i = 0;
-    interval = setInterval(function(){
-        if (i < kouNum) {
-            numStage.html(newArr[i]);
-            i++;
-        } else {
-            finish(speed, sum, result2, kouNum);
-            clearInterval(interval);
-        }
-    }, speed*1000)
-}
+    // final stage
+    timeout = setTimeout(function(){
+        singleNumStage.hide();
+        scrollNumStage.hide();
+        sumStage.html(sum);
+        sumStage.show();
+        result.html(result2);
+    }, speed * 1000 * kouNum + 1000);
 
-function finish(speed, sum, result2, kouNum) {
-	setTimeout(function(){
-		numStage.html("<span style='color:black'>" + sum + "</span>");
-		result.html(result2);
-	}, speed*2000);
+    var mode = modeSelect.getData();
+    if (mode === 0 ){
+        scrollNumStage.hide();
+        singleNumStage.show();
+        var i = 0;
+        interval = setInterval(function(){
+            if (i < kouNum) {
+                singleNumStage.html("");
+                singleNumStage.html(newArr[i]);
+                i++;
+            } else {
+                // timeout = setTimeout(function(){
+                //     singleNumStage.html("<span style='color:black'>" + sum + "</span>");
+                //     result.html(result2);
+                // }, speed*2000);
+                clearInterval(interval);
+            }
+        }, speed*1000)
+    } else {
+        singleNumStage.hide();
+        scrollNumStage.show();
+        scrollNumStage.html(newArr.join('<br>'));
+        var dis = scrollNumStage.height() - numStage.height();
+        if (mode === 1) {
+            if (dis > 0) {
+                scrollNumStage.animate({
+                    marginTop: - dis - 10 + 'px'
+                }, speed * 1000 * kouNum);
+            }
+        } else {
+            var i = 0;
+            interval = setInterval(function(){
+                if (i < kouNum) {
+                    newArr.shift();
+                    scrollNumStage.html(newArr.join('<br>'));
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, speed*1000)
+        }
+    }
+    
 }
