@@ -1,4 +1,4 @@
-
+var rightSide = $(".right");
 var kouNumEl = $("#kouNum");
 var jiajianEl = $("#jiajian");
 var btn = $("#btn");
@@ -7,6 +7,7 @@ var sumStage = $("#sum-stage");
 var scrollNumStage = $("#num-stage .scroll-mode");
 var singleNumStage = $("#num-stage .single-mode");
 var result = $("#result");
+var resultBtn = $("#result-btn");
 
 var selectOptions = $(".select-option");
 function Selection(el) {
@@ -47,22 +48,31 @@ btn.click(function() {
     clearInterval(interval);
     clearTimeout(timeout);
 	result.html("");
+    scrollNumStage.html("");
+    singleNumStage.html("");
     scrollNumStage.hide();
     singleNumStage.hide();
     sumStage.hide();
+    resultBtn.hide();
     scrollNumStage.stop();
-    scrollNumStage.css("margin-top", "100px");
+    rightSide.css({background: "#f3f4f5"});
+    
 
 	var speed = speedSelect.getData();
 	var level = levelSelect.getData();
 	var kouNum = parseInt(kouNumEl.val()) || 10;
 	var hasMinus = jiajianEl.is(":checked");
+    var mode = modeSelect.getData();
+    
 	// console.log(speed, level, kouNum, jiajian);
 	// showNums(speed, level, kouNum, hasMinus);
-	generateNums(speed, level, kouNum, hasMinus);
+    setTimeout(function(){
+        rightSide.css({background: "#fff"});
+        generateNums(speed, level, kouNum, hasMinus, mode);
+    }, 400);
 })
 
-function generateNums(speed, level, kouNum, hasMinus) {
+function generateNums(speed, level, kouNum, hasMinus, mode) {
     var arr = [];
     var sum = 0;
     var count = kouNum;
@@ -119,11 +129,11 @@ function generateNums(speed, level, kouNum, hasMinus) {
     // console.log(result);
     console.log(result2);
 
-    showNums(speed, kouNum, arr, sum, result2);
+    showNums(speed, kouNum, arr, sum, result2, mode);
 }
 
 
-function showNums(speed, kouNum, arr, sum, result2) {
+function showNums(speed, kouNum, arr, sum, result2, mode) {
     var newArr = [];
     for( var j = 0; j < kouNum; j++) {
         if (j === 0) {
@@ -136,16 +146,23 @@ function showNums(speed, kouNum, arr, sum, result2) {
     timeout = setTimeout(function(){
         singleNumStage.hide();
         scrollNumStage.hide();
-        sumStage.html(sum);
-        sumStage.show();
-        result.html(result2);
+        resultBtn.show();
+        resultBtn.click(function(){
+            sumStage.html(sum);
+            sumStage.show();
+            result.html(result2);
+            resultBtn.hide();
+        })
     }, speed * 1000 * kouNum + 1000);
 
-    var mode = modeSelect.getData();
-    if (mode === 0 ){
+    console.log(mode);
+    if (mode == 0 ){
         scrollNumStage.hide();
         singleNumStage.show();
         var i = 0;
+        singleNumStage.html("");
+        singleNumStage.html(newArr[i]);
+        i++;
         interval = setInterval(function(){
             if (i < kouNum) {
                 singleNumStage.html("");
@@ -163,15 +180,16 @@ function showNums(speed, kouNum, arr, sum, result2) {
         singleNumStage.hide();
         scrollNumStage.show();
         scrollNumStage.html(newArr.join('<br>'));
-        var dis = scrollNumStage.height() - numStage.height();
         if (mode === 1) {
-            if (dis > 0) {
-                scrollNumStage.animate({
-                    marginTop: - dis - 10 + 'px'
-                }, speed * 1000 * kouNum);
-            }
+            scrollNumStage.css("margin-top", numStage.height() - 40 +"px");
+            scrollNumStage.animate({
+                marginTop: - scrollNumStage.height() - 20 + 'px'
+            }, speed * 1000 * kouNum);
         } else {
+            scrollNumStage.css("margin-top", "100px");
             var i = 0;
+            scrollNumStage.html(newArr.join('<br>'));
+            i++;
             interval = setInterval(function(){
                 if (i < kouNum) {
                     newArr.shift();

@@ -16,7 +16,7 @@ section {
   height: 100%;
 }
 section .leftMenu {
-  flex: 1 200px;
+  flex: 1 180px;
   background: #f3f4f5;
   background-image: url(images/bg.png);
   background-repeat: no-repeat;
@@ -29,7 +29,7 @@ section .leftMenu #footer {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  opacity: 2;
+  opacity: .2;
   text-align: right;
 }
 section .leftMenu form {
@@ -132,7 +132,7 @@ section .right {
 section .right #num-stage {
   font-family: "Comic Sans MS", cursive, sans-serif;
   width: 100%;
-  height: 80%;
+  height: 75%;
   overflow: hidden;
   text-align: right;
   color: #1659ce;
@@ -140,28 +140,49 @@ section .right #num-stage {
 section .right #num-stage #sum-stage {
   display: none;
   position: absolute;
-  font-size: 140px;
+  font-size: 180px;
+  font-weight: bold;
   top: 50%;
   right: 20%;
-  margin-top: -180px;
+  margin-top: -200px;
   color: #e61c0e;
 }
 section .right #num-stage .single-mode {
   display: none;
   position: absolute;
-  font-size: 120px;
+  font-size: 180px;
+  font-weight: bold;
   top: 50%;
   right: 20%;
-  margin-top: -160px;
+  margin-top: -200px;
 }
 section .right #num-stage .scroll-mode {
   display: none;
+  font-weight: bold;
   position: relative;
   padding-top: 3%;
   padding-right: 20%;
-  font-size: 90px;
+  font-size: 100px;
   line-height: 110px;
   margin-top: 100px;
+}
+section .right #result-btn {
+  display: none;
+  position: absolute;
+  top: 80%;
+  right: 20%;
+  width: 100px;
+  height: 28px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid #1659ce;
+  line-height: 28px;
+  color: #1659ce;
+  cursor: pointer;
+}
+section .right #result-btn:hover {
+  background: #1659ce;
+  color: #fff;
 }
 section .right #result {
   position: absolute;
